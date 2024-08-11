@@ -136,9 +136,11 @@ router.post('/getProgressWeight', async (req, res) => {
         const {email} = req.body; 
         const userImage=await Progress.findOne({user:email});
         let weight=[];
-        userImage.images.filter((data)=>{
-            weight.push(data.weight);
-        })
+        if(userImage && userImage?.images){
+            userImage.images.filter((data)=>{
+                weight.push(data.weight);
+            })    
+        }
         res.json({
             success: true,
             data: weight
