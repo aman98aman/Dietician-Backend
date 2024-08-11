@@ -3,8 +3,8 @@ const router = express.Router();
 const Request = require('../models/request.model');
 
 router.post("/postRequest",async(req,res)=>{
-    const request = new Request(req.body);
     console.log("req body received is". req.body);
+    const request = new Request(req.body);
     await request.save();
     res.json({
         success:true,
