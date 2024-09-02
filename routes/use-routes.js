@@ -175,7 +175,7 @@ router.post("/getProgressWeight", async (req, res) => {
     let weight = [];
     if (userImage && userImage?.images) {
       userImage.images.filter((data) => {
-        weight.push(data.weight);
+        weight.push({weight:data.weight, createdAt: data?.createdAt});
       });
     }
     res.json({

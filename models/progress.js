@@ -6,13 +6,13 @@ const imageShema = new mongoose.Schema({
         type:String,
         unique:true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     images:[{
         weight: Number,
         name: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        },    
         img: {
             data: Buffer,
             contentType: String
