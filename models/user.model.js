@@ -11,6 +11,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         unique: true
     },
+    planExpiry: {type: Date},
+    notifyCount: {type: Number},
+    createdDt:{type: Date,default: Date.now},
     password: String,
     age: String,
     alcoholConsumption:String,
@@ -33,6 +36,10 @@ const userSchema = new mongoose.Schema({
     smoking:String,
     supplements:String,
     weight:String,
+    currentPlan: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plan'
+    },
     workHours:String,
     workoutTime:String,
     isAdmin:{ type:Boolean, default:false},

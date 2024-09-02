@@ -4,6 +4,8 @@ const app = express();
 const user = require("./routes/use-routes.js")
 const dietRoute = require("./routes/diet-routes.js")
 const nutritionRoute = require("./routes/nutrition-route.js")
+const plansRoute = require("./routes/plan-route.js")
+const vegRoute = require("./routes/veg-route.js")
 const requestRoute = require("./routes/request-routes.js")
 const verifyLogin =require("./routes/verifyLogin.js")
 
@@ -15,6 +17,8 @@ app.use(cors())
 app.use(express.json());
 app.use('/diet', dietRoute);
 app.use('/nutrition',nutritionRoute)
+app.use('/plans',plansRoute)
+app.use('/veg',vegRoute)
 app.use('/users', user);
 app.use('/request',requestRoute);
 
