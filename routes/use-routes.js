@@ -88,17 +88,20 @@ router.post("/addUser", async (req, res) => {
     });
     return;
   }
-  const params = [user?.firstName];
-  sendWhatsappMessage(
-    process.env.ONBOARD_CAMPAIGN,
-    user?.phoneNumber,
-    user?.firstName,
-    params
-  );
-  res.json({
-    success: true,
-    message: "user data is saved",
-  });
+  try{
+    const params = [user?.firstName];
+    sendWhatsappMessage(
+      process.env.ONBOARD_CAMPAIGN,
+      user?.phoneNumber,
+      user?.firstName,
+      params
+    );
+  }finally {
+    res.json({
+      success: true,
+      message: "user data is saved",
+    });  
+  }
 });
 
 router.post("/uploadpic", async (req, res) => {

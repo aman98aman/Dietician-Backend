@@ -8,7 +8,7 @@ const sendWhatsappMessage = async(campaignName, phoneNumber, name, params) => {
             "templateParams": params
         })
     }catch(e){
-        console.log(user,e);
+        console.log(name,e);
     }
 }
 module.exports = sendWhatsappMessage
