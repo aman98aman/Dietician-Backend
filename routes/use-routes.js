@@ -25,21 +25,17 @@ router.post("/addProfilePic", async (req, res) => {
         const newProfilePic = new ProfilePic({ user, imgName, img });
         await newProfilePic.save();
       }
-      res
-        .status(201)
-        .json({
-          success: true,
-          message: "Profile picture uploaded successfully",
-        });
+      res.status(201).json({
+        success: true,
+        message: "Profile picture uploaded successfully",
+      });
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        error: "An error occurred while uploading the profile picture",
-      });
+    res.status(500).json({
+      success: false,
+      error: "An error occurred while uploading the profile picture",
+    });
   }
 });
 
@@ -63,44 +59,46 @@ router.post("/getProfilePic", async (req, res) => {
 });
 
 router.post("/subscribe", async (req, res) => {
-    const {userId,planId} = req?.body;
-    if(Utility.isEmpty(userId) || Utility.isEmpty(planId)){
-      res.status(400).json({message:"required parameters not found" });
-    }else{
-      try{
-        const user = await User.findById(userId).exec();
-        user.currentPlan = planId;
-        await user.save()
-        res.status(200).json({uid: user?.id});    
-      }catch(err){
-        console.log(err)
-        res.status(500).json({message:"Unable to subscribe" });    
-      }
+  const { userId, planId } = req?.body;
+  if (Utility.isEmpty(userId) || Utility.isEmpty(planId)) {
+    res.status(400).json({ message: "required parameters not found" });
+  } else {
+    try {
+      const user = await User.findById(userId).exec();
+      user.currentPlan = planId;
+      await user.save();
+      res.status(200).json({ uid: user?.id });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Unable to subscribe" });
     }
+  }
 });
 
 router.post("/addUser", async (req, res) => {
+  let user;
   try {
     console.log("REQ.BODY RECEIVED IS", req.body);
-    const user = new User(req.body);
+    user = new User(req.body);
     await user.save();
-    const params = [user?.firstName];
-    sendWhatsappMessage(
-      process.env.ONBOARD_CAMPAIGN,
-      user?.phoneNumber,
-      user?.firstName,
-      params
-    );
-    res.json({
-      success: true,
-      message: "user data is saved",
-    });
   } catch (e) {
     res.json({
       success: false,
       message: "user already exists",
     });
+    return;
   }
+  const params = [user?.firstName];
+  sendWhatsappMessage(
+    process.env.ONBOARD_CAMPAIGN,
+    user?.phoneNumber,
+    user?.firstName,
+    params
+  );
+  res.json({
+    success: true,
+    message: "user data is saved",
+  });
 });
 
 router.post("/uploadpic", async (req, res) => {
@@ -175,7 +173,7 @@ router.post("/getProgressWeight", async (req, res) => {
     let weight = [];
     if (userImage && userImage?.images) {
       userImage.images.filter((data) => {
-        weight.push({weight:data.weight, createdAt: data?.createdAt});
+        weight.push({ weight: data.weight, createdAt: data?.createdAt });
       });
     }
     res.json({
